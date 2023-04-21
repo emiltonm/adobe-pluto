@@ -1,18 +1,28 @@
-
+#include "../events/main_events.jsx"
+#include "../modules/ui.jsx"
 panel={
     "type": "palette",
     "titulo": "Caronte",
     "orientation": "column",
-    "resizeable": true, 
-    "horizontal_align": "center",
+    "resizeable": false, 
+    "horizontal_align": "fill",
     "vertical_align": "top",
     "spacing": 4,
     "margins": 4,
     children:[
         {
-            "type": "statictext",
-            "name": "statictext_1",
-            "text": "Hi, I'm a static text!",
-        },
+            "type": "button",
+            "name": "linker",
+            "text": "enlazar",
+            "click": precompose,
+            "arguments": []
+        },        
+        // {
+        //     "type": "button",
+        //     "name": "transparent",
+        //     "text": "cambiar opacidad",
+        //     "click": transparent,
+        //     "arguments": [25]
+        // }
     ]
 }
