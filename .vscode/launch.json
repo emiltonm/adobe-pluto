@@ -7,8 +7,8 @@
         {
             "type": "extendscript-debug",
             "request": "launch",
-            "name": "config After Effects 2023",
-            "program": "${workspaceFolder}/app.jsx",
+            "name": "After Effects 2023",
+            "program": "${workspaceFolder}\\app.jsx",
             "stopOnEntry": false            
 
         }

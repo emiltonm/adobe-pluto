@@ -1,3 +1,5 @@
+#include "../modules/layer.jsx"
+
 function transparent(visibility){
     alert("funcion transparent");
     var selectedLayers=app.project.activeItem.selectedLayers;
@@ -9,24 +11,45 @@ function transparent(visibility){
 
 
 function precompose(){
-    if (app.project.activeItem == null || app.project.activeItem.selectedLayers.length == 0) {
-        alert("Por favor, seleccione una capa para precomponer.");
-    } else {
-        // Obtener la capa seleccionada
-        var selectedLayer = app.project.activeItem.selectedLayers[0];
-        var indicies = selectedLayer.index
-        // Crear una nueva precomposición con la capa seleccionada
-        var precomp=app.project.activeItem.layers.precompose([indicies], selectedLayer.name, false)
-        var control_precomp=app.project.activeItem.layers.addNull(precomp.duration)
-        //tener encuenta si hay varias con el mismo nombre
-        //comp("Comp 1").layer("Null 4").transform.position
-        var link_pos="comp('"+app.project.activeItem.name+"').layer("+control_precomp.name+").transform.position";
-        alert(link_pos);
-        precomp.layer(1).property("ADBE Transform Group").property("ADBE Position").expression=link_pos;
-        //comp("EMI_COMP").layer("VARIABLES").effect(color)("Color")
-        //app.project.item(index).layer(1).moveAfter(indicies);
-        //selectedLayers[i].selectedProperties[j].expression=expresion;
-        alert("Precomposición creada con éxito.");
+    if(not_layer_selected("Por favor, seleccione una capa para precomponer.")){}
+    else {
+        affect_layer_with(compose);
     }
-    alert("funcion precompose final");
+}
+
+
+function compose(layer){
+    // Crea una nueva precomposición con la capa seleccionada
+    var comp = app.project.activeItem;
+    comp.hideShyLayers = true;
+    
+    var precomp = app.project.items.addComp(layer.name, comp.width, comp.height, comp.pixelAspect, comp.duration, comp.frameRate);
+    
+    layer.copyToComp(precomp);
+    layer.property("ADBE Transform Group").property("ADBE Opacity").setValue(0);
+    //agrego un slider para controlar la opacidad de la capa
+    var slider = layer.property("ADBE Effect Parade").addProperty("ADBE Slider Control");
+    slider.name = "Opacity";
+    slider.property("ADBE Slider Control-0001").setValue(100);
+    
+    layer_precomp = comp.layers.add(precomp);
+    layer_precomp.moveAfter(layer);
+    layer_precomp.locked = true;
+    layer_precomp.shy = true;
+    
+    var link_anchor="comp('"+comp.name+"').layer('"+layer.name+"').transform.anchorPoint";
+    precomp.layer(1).property("ADBE Transform Group").property("ADBE Anchor Point").expression=link_anchor;
+    
+    var link_pos="comp('"+comp.name+"').layer('"+layer.name+"').transform.position";
+    precomp.layer(1).property("ADBE Transform Group").property("ADBE Position").expression=link_pos;
+
+    var link_scale="comp('"+comp.name+"').layer('"+layer.name+"').transform.scale";
+    precomp.layer(1).property("ADBE Transform Group").property("ADBE Scale").expression=link_scale;
+    
+    var link_rotation="comp('"+comp.name+"').layer('"+layer.name+"').transform.rotation";
+    precomp.layer(1).property("ADBE Transform Group").property("ADBE Rotate Z").expression=link_rotation;
+
+    var link_opacity="comp('"+comp.name+"').layer('"+layer.name+"').effect('Opacity')('Slider')";
+    precomp.layer(1).property("ADBE Transform Group").property("ADBE Opacity").expression=link_opacity;
+
 }
