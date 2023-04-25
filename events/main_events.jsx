@@ -1,22 +1,11 @@
 #include "../modules/layer.jsx"
 
-function transparent(visibility){
-    alert("funcion transparent");
-    var selectedLayers=app.project.activeItem.selectedLayers;
-    if(selectedLayers.length==0){alert('Debes seleccionar al menos una capa');}
-    for(var i=0;i<selectedLayers.length;i++){
-        selectedLayers[i].property("ADBE Transform Group").property("ADBE Opacity").setValue(visibility);
-    }
-}
-
-
 function precompose(){
     if(not_layer_selected("Por favor, seleccione una capa para precomponer.")){}
     else {
         affect_layer_with(compose);
     }
 }
-
 
 function compose(layer){
     // Crea una nueva precomposición con la capa seleccionada
@@ -52,4 +41,13 @@ function compose(layer){
     var link_opacity="comp('"+comp.name+"').layer('"+layer.name+"').effect('Opacity')('Slider')";
     precomp.layer(1).property("ADBE Transform Group").property("ADBE Opacity").expression=link_opacity;
 
+}
+
+
+function alert_one(message){
+    alert(message);
+}
+
+function alert_two(message){
+    alert("function 2: "+message);
 }

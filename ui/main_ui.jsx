@@ -14,15 +14,15 @@ panel={
             "type": "button",
             "name": "linker",
             "text": "enlazar",
-            "click": precompose,
-            "arguments": []
+            "click": alert_one,
+            "arguments": ["hola"]
         },        
-        // {
-        //     "type": "button",
-        //     "name": "transparent",
-        //     "text": "cambiar opacidad",
-        //     "click": transparent,
-        //     "arguments": [25]
-        // }
+        {
+            "type": "button",
+            "name": "transparent",
+            "text": "cambiar opacidad",
+            "click": alert_two,
+            "arguments": ["mundo"]
+        }
     ]
 }
