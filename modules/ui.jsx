@@ -1,12 +1,12 @@
 function create_panel(config){
-    var panel = new Window(config.type, undefined, undefined, {resizeable: config.resizeable});    
-    panel.text = config.titulo;
+    var panel = new Window(config.type, undefined, undefined, {resizable: config.resizable});    
+    panel.text = config.title;
     panel.orientation = config.orientation;
     panel.alignChildren = [config.horizontal_align,config.vertical_align];
     panel.spacing = config.spacing;
     panel.margins = config.margins;
     for (var i = 0; i < config.children.length; i++) {
-        var click_event=[];
+
         //label
         if(config.children[i].type==="statictext"){
             var component = panel.add(config.children[i].type,undefined,undefined,{name:config.children[i].name});
@@ -17,23 +17,21 @@ function create_panel(config){
         if(config.children[i].type==="button"){
             var component = panel.add(config.children[i].type,undefined,undefined,{name:config.children[i].name});
             component.text = config.children[i].text;
-            // para que function pueda acceder a los parametros de config.children[i].click
-            // necesito utilizar una variable local del mismo ambito que la funcion
-            var arg_event = config.children[i].arguments.slice();
-            var text_event = config.children[i].text;
-            click_event[i] = config.children[i].click;
-            click_event[i]()
-            component.onClick = function(){
-                app.beginUndoGroup(text_event);
-                //si la longitud de los argumentos es 0, no se envian argumentos
+            var arg_event = config.children[i];
 
-                if(arg_event.length==0){
-                    click_event[i]();
-                }else{
-                    click_event[i].apply(null,arg_event);
-                }
-                app.endUndoGroup();
-            }
+            component.onClick = (
+                function(arg_event){
+                    return function(){
+                        app.beginUndoGroup(arg_event.text);
+                        if(arg_event.arguments.length==0){
+
+                            arg_event.click();
+                        }else{
+                            arg_event.click.apply(null,arg_event.arguments);
+                        }
+                        app.endUndoGroup();
+                    };
+                })(arg_event);
             continue;
         }
         //input
@@ -48,6 +46,26 @@ function create_panel(config){
             component.selection = config.children[i].default;
             continue;
         }
+        //divider
+        if(config.children[i].type==="divider"){
+            var component = panel.add("panel",undefined,undefined,{name:config.children[i].name});
+            component.alignment="fill";
+            continue;
+        }
+        //checkbox
+        if(config.children[i].type==="checkbox"){
+            var component = panel.add(config.children[i].type,undefined,undefined,{name:config.children[i].name});
+            component.text=config.children[i].text;
+            component.value=config.children[i].default;
+            continue;
+        }
+        //radiobutton
+        if(config.children[i].type==="radiobutton"){
+            var component = panel.add(config.children[i].type,undefined,undefined,{name:config.children[i].name});
+            component.text=config.children[i].text;
+            component.value=config.children[i].default;
+            continue;
+        }        
     }
     return panel;
 }

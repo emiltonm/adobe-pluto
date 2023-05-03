@@ -45,7 +45,19 @@ function compose(layer){
 
 
 function alert_one(message){
-    alert(message);
+    var texto= main_panel.text1.text;
+    if(main_panel.rb1.value==true){
+        message = message.toUpperCase();
+        texto = texto.toUpperCase();
+    }else{
+        message = message.toLowerCase();
+        texto = texto.toLowerCase();
+    }
+    if (main_panel.ch1.value == true) {
+        alert(message+" "+texto);
+    }else{
+        alert(texto);
+    }
 }
 
 function alert_two(message){
