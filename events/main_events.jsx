@@ -45,7 +45,12 @@ function compose(layer){
 
 
 function alert_one(message){
-    var texto= main_panel.text1.text;
+    var texto= "";
+    if(main_panel.list1.value==0){
+        texto = main_panel.text1.text;
+    }else{
+        texto = main_panel.list1.selection.text;
+    }
     if(main_panel.rb1.value==true){
         message = message.toUpperCase();
         texto = texto.toUpperCase();

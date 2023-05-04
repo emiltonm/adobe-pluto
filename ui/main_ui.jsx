@@ -13,12 +13,25 @@ panel={
         {
             "type": "statictext",
             "name": "tag",
-            "text": "escribe un texto:"
+            "text": "escribe tu nombre:"
         },
         {
             "type": "edittext",
             "name": "text1",
-            "text": "placeholder"
+            "text": "Emilton"
+        },
+        {
+            "type": "statictext",
+            "name": "tag2",
+            "text": "o escoge uno de esta lista:"
+        },
+        {
+            "type": "dropdownlist",
+            "name": "list1",
+            "items":["Select one...","Andrea","Genith","Maria","-","Eduardo","Juan Carlos","Sebastian"],
+            "default": 0,
+            "change": alert_two,
+            //"arguments": [""]
         },
         {
             "type": "divider",
