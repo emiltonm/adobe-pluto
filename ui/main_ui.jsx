@@ -30,7 +30,7 @@ panel={
             "name": "list1",
             "items":["Select one...","Andrea","Genith","Maria","-","Eduardo","Juan Carlos","Sebastian"],
             "default": 0,
-            "change": alert_two,
+            //"change": alert_three,
             //"arguments": [""]
         },
         {
@@ -65,12 +65,19 @@ panel={
             "text": "funcion one",
             "click": alert_one,
             "arguments": ["hola"]
+        },
+        {
+            "type": "slider",
+            "name": "slider1",
+            "minvalue": 0,
+            "maxvalue": 100,
+            "default": 50,
         },        
         {
             "type": "button",
             "name": "transparent",
-            "text": "funcion two",
-            "click": alert_two,
+            "text": "Valor del slider",
+            "click": alert_three,
             "arguments": ["mundo"]
         }
     ]

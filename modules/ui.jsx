@@ -24,7 +24,6 @@ function create_panel(config){
                     return function(){
                         app.beginUndoGroup(arg_event.text);
                         if(arg_event.arguments.length==0){
-
                             arg_event.click();
                         }else{
                             arg_event.click.apply(null,arg_event.arguments);
@@ -46,19 +45,23 @@ function create_panel(config){
             component.selection = config.children[i].default;
             //cuando escoja una opcion se ejecuta el evento
             var arg_event = config.children[i];
-            component.onChange = (
-                function(arg_event){
-                    return function(){
-                        app.beginUndoGroup(arg_event.text);
-                        if(arg_event.arguments.length==0){
-                            arg_event.change();
-                        }else{
-                            arg_event.change.apply(null,arg_event.arguments);
-                        }
-                        app.endUndoGroup();
-                    };
-                })(arg_event);
-            
+            if(arg_event.change==undefined){
+                component.onChange=function(){};
+            }else{
+                component.onChange = (
+                    function(arg_event){
+                        return function(){
+                            app.beginUndoGroup("Selection Dropdown");
+                            if(arg_event.arguments==undefined){
+                                arg_event.change();
+                            }
+                            else{
+                                arg_event.change.apply(null,arg_event.arguments);
+                            }
+                            app.endUndoGroup();
+                        };
+                    })(arg_event);
+            }
             continue;
         }
         //divider
@@ -80,7 +83,15 @@ function create_panel(config){
             component.text=config.children[i].text;
             component.value=config.children[i].default;
             continue;
-        }    
+        }
+        //slider
+        if(config.children[i].type==="slider"){
+            var component = panel.add(config.children[i].type,undefined,undefined,undefined,undefined,{name:config.children[i].name});
+            component.minvalue=config.children[i].minvalue;
+            component.maxvalue=config.children[i].maxvalue;
+            component.value=config.children[i].default;
+            continue;
+        }
 
     }
     return panel;
