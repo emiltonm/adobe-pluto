@@ -34,6 +34,12 @@ panel={
             //"arguments": [""]
         },
         {
+            "type": "listbox",
+            "name": "list2",
+            "items":["Queen","Ojeda","Angel","Mendoza","Zubiria","Quiroz"],
+            "multiselect": false,
+        },
+        {
             "type": "divider",
             "name": "divider1"
         },
@@ -70,7 +76,7 @@ panel={
             "type": "slider",
             "name": "slider1",
             "minvalue": 0,
-            "maxvalue": 100,
+            "maxvalue": 500,
             "default": 50,
         },        
         {
@@ -78,7 +84,38 @@ panel={
             "name": "transparent",
             "text": "Valor del slider",
             "click": alert_three,
-            "arguments": ["mundo"]
-        }
+            //"arguments": ["mundo"]
+        },
+        {
+            "type": "group",
+            "name": "group1",
+            "orientation": "row",
+            "children": [
+                {
+                    "type": "statictext",
+                    "name": "tag3",
+                    "text": "Avance:"
+                },
+                {
+                    "type": "button",
+                    "name": "linker3",
+                    "text": "-",
+                    "click": previous_progress,
+                },                
+                {
+                    "type": "progressbar",
+                    "name": "progress1",
+                    "maxvalue": 100,
+                    "value": 0,
+                    "height": 2
+                },
+                {
+                    "type": "button",
+                    "name": "linker2",
+                    "text": "+",
+                    "click": next_progress,
+                }
+            ]
+        },
     ]
 }

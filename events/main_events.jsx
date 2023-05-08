@@ -61,7 +61,7 @@ function alert_one(message){
     }
 
     if (main_panel.ch1.value == true) {
-        alert(message+" "+texto);
+         alert(message+" "+texto);
     }else{
         alert(texto);
     }
@@ -73,4 +73,16 @@ function alert_two(message){
 
 function alert_three(){
     alert(main_panel.slider1.value);
+}
+
+function previous_progress(){
+    //alert("next progress");
+    main_panel.group1.children[2].value-=10;
+    //main_panel.group1.children[3].value+=10;
+}
+
+function next_progress(){
+    //alert("next progress");
+    //main_panel.group1.children[1].value-=10;
+    main_panel.group1.children[2].value+=10;
 }
